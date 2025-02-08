@@ -1,31 +1,27 @@
-name: 24f1002474@ds.study.iitm.ac.in  # Workflow name
+name: Daily Commit
+
 on:
   schedule:
-    - cron: '30 2 * * *'
-  workflow_dispatch:
+    - cron: "30 2 * * *" # Runs daily at 02:30 UTC
 
-permissions:
-  contents: write
+  workflow_dispatch: # Allows manual triggering
 
 jobs:
   commit:
-    name: 24f1002474@ds.study.iitm.ac.in  # Job name must match exactly
     runs-on: ubuntu-latest
+
     steps:
-      - name: 24f1002474@ds.study.iitm.ac.in  # Step name should also match
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configure Git
+      - name: Set up Git
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "24f1002474@ds.study.iitm.ac.in"
 
-      - name: Make a Change
+      - name: Add a daily commit (24f1002474@ds.study.iitm.ac.in)
         run: |
-          echo "Last run: $(date)" > last_run.txt
-
-      - name: Commit and Push Changes
-        run: |
-          git add last_run.txt
-          git commit -m "Automated daily commit by 24f1002474@ds.study.iitm.ac.in at $(date)" || echo "No changes to commit"
+          echo "$(date)" >> daily_commit_log.txt
+          git add daily_commit_log.txt
+          git commit -m "Automated commit on $(date)"
           git push
