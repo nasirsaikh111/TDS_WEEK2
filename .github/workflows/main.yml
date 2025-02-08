@@ -1,5 +1,5 @@
 # main.yml
-name: Daily Commit
+name: 24f1002474@ds.study.iitm.ac.in
 
 on:
   schedule:
