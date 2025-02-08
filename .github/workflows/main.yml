@@ -2,8 +2,11 @@ name: Daily Commit
 
 on:
   schedule:
-    - cron: "30 2 * * *" # Runs daily at 02:30 UTC
-  workflow_dispatch: # Allows manual triggering
+    - cron: "30 2 * * *"  # Runs daily at 02:30 UTC
+  workflow_dispatch:  # Allows manual trigger
+
+permissions:
+  contents: write  # Ensure GitHub Actions can push changes
 
 jobs:
   commit:
@@ -18,9 +21,15 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "24f1002474@ds.study.iitm.ac.in"
 
-      - name: Add a daily commit (24f1002474@ds.study.iitm.ac.in)
+      - name: Make a change and commit (24f1002474@ds.study.iitm.ac.in)
         run: |
-          echo "$(date)" >> daily_commit_log.txt
+          echo "Automated commit on $(date)" >> daily_commit_log.txt
           git add daily_commit_log.txt
-          git commit -m "Automated commit on $(date)"
-          git push
+          git commit -m "Automated commit on $(date)" || echo "No changes to commit"
+
+      - name: Push changes
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}  # Use a GitHub secret for authentication
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/nasirsaikh111/TDS_WEEK2.git
+          git push origin main
